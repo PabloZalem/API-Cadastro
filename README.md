@@ -43,5 +43,26 @@ Este projeto segue a arquitetura em camadas, que promove a separação de respon
 Controller: Responsável por receber as requisições HTTP e encaminhá-las para a camada de negócio.
 Business (Service): Contém a lógica de negócio e orquestra as operações entre controller e repository.
 Infrastructure:
-    Entity: Define os modelos de dados que representam as tabelas no banco de dados.
+    Entity: Define os modelos de dados que representam as tabelas no banco de dados. Aqui criamos nossa Ent
     Repository: Interfaces que estendem JpaRepository para realizar operações de persistência.
+```java
+@Entity
+@Table(name = "usuarios")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+public class Usuario {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @Column(name = "nome")
+    private String nome;
+
+    @Column(name = "email", unique = true)
+    private String email;
+}
+``` 
