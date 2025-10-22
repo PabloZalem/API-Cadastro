@@ -74,3 +74,4 @@ Estrutura Repository
     public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
     }
 ```
+Escolhemos trabalhar com essa interface, pois ela sera o nosso facilitador na construção dos metodos, passamos no parametro nome da entidade e o tipo de ID.
