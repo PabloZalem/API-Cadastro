@@ -69,3 +69,8 @@ public class Usuario {
 }
 ``` 
 
+Estrutura Repository
+```java
+    public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
+    }
+```
