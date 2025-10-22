@@ -45,6 +45,8 @@ Business (Service): Contém a lógica de negócio e orquestra as operações ent
 Infrastructure:
     Entity: Define os modelos de dados que representam as tabelas no banco de dados. Aqui criamos nossa Ent
     Repository: Interfaces que estendem JpaRepository para realizar operações de persistência.
+
+Estrutura da Entidade Usuario
 ```java
 @Entity
 @Table(name = "usuarios")
@@ -66,3 +68,4 @@ public class Usuario {
     private String email;
 }
 ``` 
+
