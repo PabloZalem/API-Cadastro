@@ -38,9 +38,10 @@ Este projeto é uma API RESTful desenvolvida com **Spring Boot**, com o objetivo
 
 🏗️ Arquitetura da Aplicação
 Este projeto segue a arquitetura em camadas, que promove a separação de responsabilidades e facilita a manutenção e escalabilidade da aplicação.
+
 📚 Camadas
 Controller: Responsável por receber as requisições HTTP e encaminhá-las para a camada de negócio.
 Business (Service): Contém a lógica de negócio e orquestra as operações entre controller e repository.
-Infrastructure
-Entity: Define os modelos de dados que representam as tabelas no banco de dados.
-Repository: Interfaces que estendem JpaRepository para realizar operações de persistência.
+Infrastructure:
+    Entity: Define os modelos de dados que representam as tabelas no banco de dados.
+    Repository: Interfaces que estendem JpaRepository para realizar operações de persistência.
