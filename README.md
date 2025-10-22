@@ -75,3 +75,26 @@ Estrutura Repository
     }
 ```
 Escolhemos trabalhar com essa interface, pois ela sera o nosso facilitador na construção dos metodos, passamos no parametro nome da entidade e o tipo de ID.
+
+Estrutura Service
+```java
+@Service
+public class UsuarioService {
+	// Vamos fazer por injecao de dependencia
+	private final UsuarioRepository repository;
+	
+	public UsuarioService(UsuarioRepository repository) {
+		this.repository = repository;
+	}
+	
+	public void salvarUsuario(Usuario usuario) {
+		repository.saveAndFlush(usuario);
+	}
+}
+```
+Ele vai fazer a injecao de dependencia, onde usaremos os metodos do JPARepository para criarmos o nosso CRUD. Passamo a anotacao @Service para indicar ao spring que essa classe é uma service.
+Podemos fazer essa interação com a interface repository de três maneira:
+1- Pela anotação @Autowired que é do Spring;
+2- Pela anotação RequiredArgsConstructor que é do Lombok.
+3- Escrevendo um construtor na mão para injetar essa dependencia do repository.
+Escolhemos a terceira opção.
