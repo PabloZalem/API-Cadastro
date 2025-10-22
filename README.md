@@ -36,27 +36,11 @@ Este projeto é uma API RESTful desenvolvida com **Spring Boot**, com o objetivo
 </dependencies>
 ```
 
-src/
-└── main/
-    └── java/
-        └── com/
-            └── seuusuario/
-                └── seuprojeto/
-                    ├── business/
-                    │   └── service/
-                    │       └── UsuarioService.java
-                    │       └── UsuarioServiceImpl.java
-                    │
-                    ├── controller/
-                    │   └── UsuarioController.java
-                    │
-                    ├── infrastructure/
-                    │   ├── entity/
-                    │   │   └── Usuario.java
-                    │   │
-                    │   └── repository/
-                    │       └── UsuarioRepository.java
-business/: Contém a lógica de negócio da aplicação. Aqui ficam os serviços que orquestram as operações entre controller e repository.
-controller/: Responsável por expor os endpoints REST e receber as requisições HTTP.
-infrastructure/entity/: Contém as entidades JPA que representam as tabelas do banco de dados.
-infrastructure/repository/: Interfaces que estendem JpaRepository para acesso aos dados.
+🏗️ Arquitetura da Aplicação
+Este projeto segue a arquitetura em camadas, que promove a separação de responsabilidades e facilita a manutenção e escalabilidade da aplicação.
+📚 Camadas
+Controller: Responsável por receber as requisições HTTP e encaminhá-las para a camada de negócio.
+Business (Service): Contém a lógica de negócio e orquestra as operações entre controller e repository.
+Infrastructure
+Entity: Define os modelos de dados que representam as tabelas no banco de dados.
+Repository: Interfaces que estendem JpaRepository para realizar operações de persistência.
