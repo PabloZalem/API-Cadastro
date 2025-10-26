@@ -113,3 +113,13 @@ Criamos o metodo, onde utilizamos a criacao de um método na interface findByEma
 ```
 1- Utilizaremos um Optional, onde, caso nao encontra ele tratará a exceção evitando o NullPointerException;
 2- Como default, devemos criar o findBy seguindo as práticas do Spring, onde ele reconhecerá.
+
+Deletar Usuario
+```java
+	@Transactional
+	void deleteByEmail(String email);
+```
+Criamos na interface repository para deletar usuario, onde inserimos @Transactional
+1- Ela garante que uma operacao no BD seja feita com segurança
+2- Se tudo der certo, as mudanças sao confirmadas no BD (Commit);
+3- Se der algum erro, todas as mudanças são canceladas (RollBack).
