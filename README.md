@@ -98,3 +98,18 @@ Podemos fazer essa interação com a interface repository de três maneira:
 2- Pela anotação RequiredArgsConstructor que é do Lombok.
 3- Escrevendo um construtor na mão para injetar essa dependencia do repository.
 Escolhemos a terceira opção.
+
+
+Criamos o metodo buscarUsuarioPorEmail
+```java
+	public Usuario buscarUsuarioPorEmail(String email) {
+		return repository.findByEmail(email).orElseThrow(
+				() -> new RuntimeException("Email nao encontrado")
+		);
+```
+Criamos o metodo, onde utilizamos a criacao de um método na interface findByEmail, pois o JPA nao tem essa funcao, dai criamos um método na interface
+```java
+	Optional<Usuario> findByEmail(String email);
+```
+1- Utilizaremos um Optional, onde, caso nao encontra ele tratará a exceção evitando o NullPointerException;
+2- Como default, devemos criar o findBy seguindo as práticas do Spring, onde ele reconhecerá.
