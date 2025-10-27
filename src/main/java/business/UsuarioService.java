@@ -2,7 +2,6 @@ package business;
 
 import org.springframework.stereotype.Service;
 
-import dto.AtualizarUsuarioDTO;
 import infrastructure.entitys.Usuario;
 import infrastructure.repository.UsuarioRepository;
 
