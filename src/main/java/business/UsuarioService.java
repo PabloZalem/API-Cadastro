@@ -18,9 +18,14 @@ public class UsuarioService {
 		repository.saveAndFlush(usuario);
 	}
 
+	
 	public Usuario buscarUsuarioPorEmail(String email) {
 		return repository.findByEmail(email).orElseThrow(
 				() -> new RuntimeException("Email nao encontrado")
 		);
+	}
+	
+	public void deletarUsuarioPorEmail(String email) {
+		repository.deleteByEmail(email);
 	}
 }
