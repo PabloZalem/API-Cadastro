@@ -130,3 +130,19 @@ Implementando deletar usuario
 		repository.deleteByEmail(String email)
 	}
 ```
+
+Atualizar cadastro
+Foi necessario instalar o software externo do lombok para que ele pudesse ler
+```java
+	public void atualizarUsuarioPorId(Integer id, Usuario usuario) {
+		Usuario usuarioEntity = repository.findById(id).orElseThrow(() -> new RuntimeException("Id nao encontrado"));
+
+		Usuario usuarioAtualizado = usuario.builder()
+			.email(usuario.getEmail() != null ? usuario.getEmail() : usuarioEntity.getEmail())
+			.nome(nome.getNome() != null ? usuario.getNome() : usuarioEntity.getNome())
+			.id(usuarioEntity.getId())
+			.build();
+
+		repository.saveAndFlush(usuarioAtualizado);
+	}
+```
