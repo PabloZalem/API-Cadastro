@@ -169,4 +169,14 @@ Mapeamento com GetMapping
 @GetMapping
 public ResponseEntity<Usuario> buscarUsuarioPorEmail(@RequestParam String email) {
 	return ResponseEntity.ok(service.buscarUsuarioPorEmail(email);
+}
+```
+
+Mapeamento com DeleteMapping
+```java
+@DeleteMapping
+public ResponseEntity<Void> deletarUsuarioPorEmail(@RequestParam String email) {
+	service.deletarUsuarioPorEmail(email);
+	return ResponseEntity.ok().build();
+}
 ```
