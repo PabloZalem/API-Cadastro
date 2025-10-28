@@ -146,3 +146,20 @@ Foi necessario instalar o software externo do lombok para que ele pudesse ler
 		repository.saveAndFlush(usuarioAtualizado);
 	}
 ```
+
+Criacao do Usuario Controller
+Faremos o mapeamento das URLs da nossa API
+```java
+	@RequestMapping("/usuario")
+	@RestController
+	@RequiredArgsConstructor
+	public class UsuarioController {
+		private final UsuarioService usuarioService;
+
+		@PostMapping
+		public ResponseEntity<Void> salvarUsuario(@BodyRequest Usuario usuario) {
+			usuarioService.salvarUsuario(usuario);
+			return ResponseEntity.ok().build();
+		}
+	}
+```
