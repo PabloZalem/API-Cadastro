@@ -163,3 +163,10 @@ Faremos o mapeamento das URLs da nossa API
 		}
 	}
 ```
+
+Mapeamento com GetMapping
+```java
+@GetMapping
+public ResponseEntity<Usuario> buscarUsuarioPorEmail(@RequestParam String email) {
+	return ResponseEntity.ok(service.buscarUsuarioPorEmail(email);
+```
