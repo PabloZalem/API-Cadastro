@@ -1,6 +1,7 @@
 package controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,5 +28,11 @@ public class UsuarioController {
 	@GetMapping
 	public ResponseEntity<Usuario> buscarUsuarioPorEmail(@RequestParam String email) {
 		return ResponseEntity.ok(service.buscarUsuarioPorEmail(email));
+	}
+	
+	@DeleteMapping
+	public ResponseEntity<Void> deletarUsuarioPorEmail(@RequestParam String email) {
+		service.deletarUsuarioPorEmail(email);
+		return ResponseEntity.ok().build();
 	}
 }
