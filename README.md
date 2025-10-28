@@ -180,3 +180,12 @@ public ResponseEntity<Void> deletarUsuarioPorEmail(@RequestParam String email) {
 	return ResponseEntity.ok().build();
 }
 ```
+
+Mapeando com PutMapping
+```java
+@PutMapping
+public ResponseEntity<Void> atualizarUsuarioPorId(@RequestParam Integer id, @RequestBody Usuario usuario) {
+	service.atualizarUsuarioPorId(id, usaurio);
+	return ResponseEntity.ok().build();
+}
+```
