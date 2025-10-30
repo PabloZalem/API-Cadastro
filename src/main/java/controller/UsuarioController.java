@@ -14,15 +14,15 @@ import business.UsuarioService;
 import infrastructure.entitys.Usuario;
 import lombok.RequiredArgsConstructor;
 
-@RequestMapping("/usuario")
 @RestController
+@RequestMapping("/usuarios")
 @RequiredArgsConstructor
 public class UsuarioController {
 	private final UsuarioService service;
 	
 	@PostMapping
-	public ResponseEntity<Void> salvarUsuario(@RequestBody Usuario usario) {
-		service.salvarUsuario(usario);
+	public ResponseEntity<Void> salvarUsuario(@RequestBody Usuario usuario) {
+		service.salvarUsuario(usuario);
 		return ResponseEntity.ok().build();
 	}
 	
