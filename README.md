@@ -189,3 +189,11 @@ public ResponseEntity<Void> atualizarUsuarioPorId(@RequestParam Integer id, @Req
 	return ResponseEntity.ok().build();
 }
 ```
+
+HTTP:
+```POSTMAN
+	POST   http://localhost:8080/cadastro/usuarios
+	GET    http://localhost:8080/cadastro/usuarios?email=...
+	DELETE http://localhost:8080/cadastro/usuarios?email=...
+	PUT    http://localhost:8080/cadastro/usuarios?id=...
+```
