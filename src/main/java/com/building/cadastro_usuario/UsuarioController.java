@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class UsuarioController {
 	private final UsuarioService service;
 	
-	@PostMapping
+	@PostMapping("/create")
 	public ResponseEntity<String> salvarUsuario(@RequestBody Usuario usuario) {
 		if (usuario.getNome() == null || usuario.getNome().isBlank()) {
 			throw new MissingFieldException("Nome obrigatorio");
