@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.building.cadastro_usuario.exception.DuplicateEmailException;
+import com.building.cadastro_usuario.exception.InvalidEmailFormatException;
+import com.building.cadastro_usuario.exception.MissingFieldException;
+
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -22,6 +26,16 @@ public class UsuarioController {
 	
 	@PostMapping
 	public ResponseEntity<String> salvarUsuario(@RequestBody Usuario usuario) {
+		if (usuario.getNome() == null || usuario.getNome().isBlank()) {
+			throw new MissingFieldException("Nome obrigatorio");
+		}
+		if (usuario.getEmail() == null || usuario.getEmail().isBlank()) {
+	        throw new MissingFieldException("Email é obrigatório");
+	    }
+	    if (!usuario.getEmail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+	        throw new InvalidEmailFormatException("Formato de email inválido");
+	    }
+		
 		service.salvarUsuario(usuario);
 		return ResponseEntity.status(HttpStatus.CREATED).body("Cadastro criado com sucesso");
 	}
