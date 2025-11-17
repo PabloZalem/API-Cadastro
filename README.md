@@ -197,3 +197,41 @@ HTTP:
 	DELETE http://localhost:8080/cadastro/usuarios?email=...
 	PUT    http://localhost:8080/cadastro/usuarios?id=...
 ```
+
+
+MELHORANDO O CODIGO COM A CRIACAO DE EXCEPTIONS EXCLUSIVAS
+Tratamento Exceções é um mecanismo para lidar com erros em tempo de exeucação, permitindo que o fluxo normal de um programa continue.
+Exceções são eventos que ocorrem durante a execução do programa e que interrompem o fluxo normal das instruções.
+Criamos uma classe Controller
+```java
+	@RestController
+	@RequestMapping("/api")
+	public class ApiController() {
+		@GetMapping("/hello")
+		public String Hello() {
+			return "hello world";
+		}
+	}
+
+	@GetMapping("/myerror")
+	public String myError() {
+			throw new RuntimeException(erro personalizado);
+	}
+}
+```
+
+Vamos criar uma classe ControllerAdvice (Exemplo ilustrativo)
+```java
+	@ControllerAdvice
+	public class ApiExceptionHandler() {
+		@ExceptionHandler(RuntimeException.class)
+		public ResponseEntity<String> handleRuntimeException(final RuntimeException anException,
+																final HttpSecretRequest aRequest) {
+			final var aMessage = "Um erro ocorre" + anException.getMessage();
+			final var aResponse = ResponseEntity.badRequest().body(aMessage);
+
+			return aResponse
+		}
+	}
+```
+Ao rodar, o nosso myError sera capiturado e tratado
