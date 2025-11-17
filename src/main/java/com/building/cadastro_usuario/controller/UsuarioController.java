@@ -1,7 +1,8 @@
-package com.building.cadastro_usuario;
+package com.building.cadastro_usuario.controller;
 
+import com.building.cadastro_usuario.entity.Usuario;
+import com.building.cadastro_usuario.service.UsuarioService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.building.cadastro_usuario.exception.DuplicateEmailException;
 import com.building.cadastro_usuario.exception.InvalidEmailFormatException;
 import com.building.cadastro_usuario.exception.MissingFieldException;
 

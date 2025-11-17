@@ -1,4 +1,4 @@
-package com.building.cadastro_usuario;
+package com.building.cadastro_usuario.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

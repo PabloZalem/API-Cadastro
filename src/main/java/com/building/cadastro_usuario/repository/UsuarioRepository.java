@@ -1,7 +1,8 @@
-package com.building.cadastro_usuario;
+package com.building.cadastro_usuario.repository;
 
 import java.util.Optional;
 
+import com.building.cadastro_usuario.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

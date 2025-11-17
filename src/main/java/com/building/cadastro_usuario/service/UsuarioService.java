@@ -1,5 +1,7 @@
-package com.building.cadastro_usuario;
+package com.building.cadastro_usuario.service;
 
+import com.building.cadastro_usuario.entity.Usuario;
+import com.building.cadastro_usuario.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
 @Service
