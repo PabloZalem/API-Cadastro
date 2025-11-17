@@ -1,13 +1,9 @@
-package com.building.cadastro_usuario;
+package com.building.cadastro_usuario.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import com.building.cadastro_usuario.exception.DuplicateEmailException;
-import com.building.cadastro_usuario.exception.InvalidEmailFormatException;
-import com.building.cadastro_usuario.exception.MissingFieldException;
 
 import jakarta.persistence.PersistenceException;
 
@@ -39,5 +35,10 @@ public class HandlerException {
     public ResponseEntity<String> handleGeneric(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                              .body("Erro inesperado: " + ex.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleToken(Exception ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token invalido" + ex.getMessage());
     }
 }
