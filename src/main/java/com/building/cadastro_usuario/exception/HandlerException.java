@@ -37,8 +37,13 @@ public class HandlerException {
                              .body("Erro inesperado: " + ex.getMessage());
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleToken(Exception ex) {
+    @ExceptionHandler(InvalidateToken.class)
+    public ResponseEntity<String> handleToken(InvalidateToken ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token invalido" + ex.getMessage());
+    }
+
+    @ExceptionHandler(TokenAuthenticationException.class)
+    public ResponseEntity<String> handleAuthorization(TokenAuthenticationException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Autorização nao foi possível" + ex.getMessage());
     }
 }

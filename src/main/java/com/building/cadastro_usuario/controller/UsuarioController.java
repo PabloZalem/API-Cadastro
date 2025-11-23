@@ -26,13 +26,10 @@ public class UsuarioController {
 	
 	@PostMapping("/create")
 	public ResponseEntity<String> salvarUsuario(@RequestBody Usuario usuario) {
-		if (usuario.getNome() == null || usuario.getNome().isBlank()) {
-			throw new MissingFieldException("Nome obrigatorio");
+		if (usuario.getUsuario() == null || usuario.getUsuario().isBlank()) {
+			throw new MissingFieldException("Usuario obrigatorio");
 		}
-		if (usuario.getEmail() == null || usuario.getEmail().isBlank()) {
-	        throw new MissingFieldException("Email é obrigatório");
-	    }
-	    if (!usuario.getEmail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+	    if (!usuario.getSenha().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
 	        throw new InvalidEmailFormatException("Formato de email inválido");
 	    }
 		

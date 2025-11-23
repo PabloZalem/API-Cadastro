@@ -2,13 +2,22 @@ package com.building.cadastro_usuario.service;
 
 import com.building.cadastro_usuario.entity.Usuario;
 import com.building.cadastro_usuario.repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+
 @Service
-public class UsuarioService {
+public class UsuarioService implements UserDetailsService {
+
 	// Vamos fazer por injecao de dependencia
 	private final UsuarioRepository repository;
 
+    @Autowired
 	public UsuarioService(UsuarioRepository repository) {
 		this.repository = repository;
 	}
@@ -17,26 +26,50 @@ public class UsuarioService {
 		repository.saveAndFlush(usuario);
 	}
 
-	
-	public Usuario buscarUsuarioPorEmail(String email) {
-		return repository.findByEmail(email).orElseThrow(
-				() -> new RuntimeException("Email nao encontrado")
-		);
+	public Usuario buscarUsuarioPorEmail(String user) {
+        Usuario usuario = repository.findByUsuario(user);
+
+        if (usuario == null) {
+            throw new UsernameNotFoundException("Usuario nao encontrado");
+        }
+
+		return usuario;
 	}
 	
 	public void deletarUsuarioPorEmail(String email) {
-		repository.deleteByEmail(email);
+		repository.deleteByUsuario(email);
 	}
 	
 	public void atualizarUsuarioPorId(Integer id, Usuario usuario) {
 		Usuario usuarioEntity = repository.findById(id).orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
 		
 		Usuario usuarioAtualizado = Usuario.builder()
-        .email(usuario.getEmail() != null ? usuario.getEmail() : usuarioEntity.getEmail())
-        .nome(usuario.getNome() != null ? usuario.getNome() : usuarioEntity.getNome())
+        .usuario(usuario.getUsuario() != null ? usuario.getUsuario() : usuarioEntity.getUsuario())
+        .senha(usuario.getSenha() != null ? usuario.getSenha() : usuarioEntity.getSenha())
         .id(usuarioEntity.getId())
         .build();
 		
 		repository.saveAndFlush(usuarioAtualizado);
 	}
+
+    /**
+     *
+     * @param username
+     * @return integra a autenticacao com Spring Security
+     * @throws UsernameNotFoundException
+     */
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+       Usuario usuario = repository.findByUsuario(username);
+
+       if (usuario == null) {
+           throw new UsernameNotFoundException("usuario nao encontrado: " + username);
+       }
+
+        return new org.springframework.security.core.userdetails.User(
+                usuario.getUsuario(),
+                usuario.getSenha(),
+                Collections.emptyList()
+        );
+    }
 }

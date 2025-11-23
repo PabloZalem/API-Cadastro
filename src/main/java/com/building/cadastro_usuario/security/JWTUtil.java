@@ -3,6 +3,7 @@ package com.building.cadastro_usuario.security;
 
 import com.building.cadastro_usuario.exception.InvalidateToken;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,7 @@ public class JWTUtil {
     @Value("${jwt.secret}") // chave secreata usada para assinar/verificar o token
     private String jwtSecret;
     @Value("${jwt.expiration}") // tempo de expiracao do token en milissegundos
-    private String jwtExpiration;
+    private long jwtExpiration;
 
     private SecretKey secretKey; // Objeto que representa a chave criptográfica usada para assinar/verificar os tokens.
 
@@ -51,7 +52,7 @@ public class JWTUtil {
         return Jwts.builder()
                 .subject(usuario)
                 .issuedAt(new Date())
-                .expiration(new Date((new Date()).getTime() + jwtExpiration))
+                .expiration(new Date(jwtExpiration))
                 .signWith(secretKey)
                 .compact();
     }
@@ -82,9 +83,9 @@ public class JWTUtil {
                     .build()
                     .parseSignedClaims(token);
             return true;
-        } catch (Exception e) {
+        } catch (InvalidateToken e) {
             log.error("JWT validation error: {}", e.getMessage(), e);
-            throw new InvalidateToken("JWT validation error: {}" + e.getMessage());
         }
+        return false;
     }
 }
