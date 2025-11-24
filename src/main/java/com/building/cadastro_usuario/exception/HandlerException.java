@@ -15,11 +15,6 @@ public class HandlerException {
 		return ResponseEntity.badRequest().body(ex.getMessage()); // 400
 	}
 	
-	@ExceptionHandler(InvalidEmailFormatException.class)
-    public ResponseEntity<String> handleInvalidEmail(InvalidEmailFormatException ex) {
-        return ResponseEntity.badRequest().body(ex.getMessage()); // 400
-    }
-	
 	@ExceptionHandler(DuplicateEmailException.class)
     public ResponseEntity<String> handleDuplicateEmail(DuplicateEmailException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage()); // 409
@@ -45,5 +40,10 @@ public class HandlerException {
     @ExceptionHandler(TokenAuthenticationException.class)
     public ResponseEntity<String> handleAuthorization(TokenAuthenticationException ex) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Autorização nao foi possível" + ex.getMessage());
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<String> handleNotFound(UsernameNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 }

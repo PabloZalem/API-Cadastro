@@ -15,12 +15,12 @@ import lombok.*;
 @Builder
 @Table(name = "usuario")
 @Entity
-@Data
 public class Usuario {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
 	@Column(name = "usuario", unique = true)
 	private String usuario;
     private String senha;

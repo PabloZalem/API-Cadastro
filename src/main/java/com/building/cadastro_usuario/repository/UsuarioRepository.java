@@ -9,10 +9,8 @@ import jakarta.transaction.Transactional;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
 	
-	Usuario findByUsuario(String email);
-	
-	@Transactional
+	Usuario findByUsuario(String usuario);
+    @Transactional
 	void deleteByUsuario(String usuario);
-
-    boolean existsByUsuario(String email);
+    boolean existsByUsuario(String usuario);
 }

@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.building.cadastro_usuario.exception.InvalidEmailFormatException;
 import com.building.cadastro_usuario.exception.MissingFieldException;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -29,23 +30,25 @@ public class UsuarioController {
 		if (usuario.getUsuario() == null || usuario.getUsuario().isBlank()) {
 			throw new MissingFieldException("Usuario obrigatorio");
 		}
-	    if (!usuario.getSenha().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
-	        throw new InvalidEmailFormatException("Formato de email inválido");
-	    }
 		
 		service.salvarUsuario(usuario);
 		return ResponseEntity.status(HttpStatus.CREATED).body("Cadastro criado com sucesso");
 	}
-	
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Usuario>> buscarTodosUsuarios() {
+        return ResponseEntity.ok(service.buscarTodosUsuarios());
+    }
+
 	@GetMapping
 	public ResponseEntity<Usuario> buscarUsuarioPorEmail(@RequestParam String email) {
-		return ResponseEntity.ok(service.buscarUsuarioPorEmail(email));
+		return ResponseEntity.ok(service.buscarUsuario(email));
 	}
 	
 	@DeleteMapping
 	public ResponseEntity<Void> deletarUsuarioPorEmail(@RequestParam String email) {
-		service.deletarUsuarioPorEmail(email);
-		return ResponseEntity.ok().build();
+		service.deletarUsuario(email);
+		return ResponseEntity.noContent().build();
 	}
 	
 	@PutMapping
