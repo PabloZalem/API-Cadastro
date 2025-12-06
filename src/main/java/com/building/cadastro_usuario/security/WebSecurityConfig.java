@@ -54,8 +54,7 @@ public class WebSecurityConfig {
                 .exceptionHandling(e ->
                         e.authenticationEntryPoint(authenticationEntryPoint))
                 .sessionManagement(s -> s.sessionCreationPolicy(
-                                org.springframework.security.config.http.SessionCreationPolicy.STATELESS
-                        ))
+                                org.springframework.security.config.http.SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(a ->
                         a.requestMatchers("/api/v1/auth/**").permitAll()
                                 .anyRequest().authenticated());
