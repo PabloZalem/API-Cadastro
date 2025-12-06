@@ -26,9 +26,6 @@ import java.util.List;
 public class WebSecurityConfig {
 
     @Autowired
-    private UsuarioService usuarioService;
-
-    @Autowired
     private AuthenticationEntryPoint authenticationEntryPoint;
 
     @Bean
