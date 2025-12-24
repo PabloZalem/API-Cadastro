@@ -13,6 +13,7 @@ import java.util.List;
 
 @Service
 public class UsuarioService implements UserDetailsService {
+    private static final String AES_KEY = "TOKEN_SECURITY_MOGLIX_AES_KEY_IN_JWT";
 
 	// Vamos fazer por injecao de dependencia
     @Autowired
@@ -82,4 +83,14 @@ public class UsuarioService implements UserDetailsService {
                 Collections.emptyList()
         );
     }
+
+    public String encrypt(String data) {
+		AES aes = new AES(AES_KEY);
+		return aes.encrypt(data);
+	}
+
+    public String decrypt(String data) {
+		AES aes = new AES(AES_KEY);
+		return aes.decrypt(data);
+	}
 }
