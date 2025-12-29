@@ -33,20 +33,8 @@ public class UsuarioController {
 			throw new MissingFieldException("Usuario obrigatorio");
 		}
 
-		service.salvarUsuario(usuario);
+		service.salvarUsuario(usuario); // já criptografa dentro do service
 		return ResponseEntity.status(HttpStatus.CREATED).body("Cadastro criado com sucesso");
-	}
-
-	@PostMapping("/encrypt")
-	public Usuario createEmployee(@RequestBody Usuario usuario) {
-		String encyrptName = service.encrypt(usuario.getUsuario());
-		String encyrptPassword = service.encrypt(usuario.getSenha());
-
-		Usuario usuario2 = new Usuario();
-		usuario2.setUsuario(encyrptName);
-		usuario2.setSenha(encyrptPassword);
-
-		return repository.save(usuario2);
 	}
 
 	@GetMapping("/all")

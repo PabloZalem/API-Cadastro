@@ -21,7 +21,8 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "usuario", unique = true)
+	@Column(name = "usuario", unique = true, length = 1024)
 	private String usuario;
+	@Column(name = "senha", unique = true, length = 1024)
     private String senha;
 }

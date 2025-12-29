@@ -13,55 +13,73 @@ import java.util.List;
 
 @Service
 public class UsuarioService implements UserDetailsService {
-    private static final String AES_KEY = "TOKEN_SECURITY_MOGLIX_AES_KEY_IN_JWT";
 
-	// Vamos fazer por injecao de dependencia
+    // Vamos fazer por injecao de dependencia
     @Autowired
     private final UsuarioRepository repository;
 
-	public UsuarioService(UsuarioRepository repository) {
-		this.repository = repository;
-	}
+    // Classe utilitaria de RSA
+    private final RSA rsa;
+
+    public UsuarioService(UsuarioRepository repository) {
+        this.repository = repository;
+        this.rsa = new RSA(); // gera par de chaves ao iniciar
+    }
 
     public List<Usuario> buscarTodosUsuarios() {
         return repository.findAll();
     }
 
-	public void salvarUsuario(Usuario usuario) {
+    public void salvarUsuario(Usuario usuario) {
         if (repository.existsByUsuario(usuario.getUsuario())) {
             throw new IllegalArgumentException("Usuário já existe");
         }
-		repository.saveAndFlush(usuario);
-	}
 
-	public Usuario buscarUsuario(String user) {
+        // Criptografa antes de salvar
+        Usuario usuarioCriptografado = Usuario.builder()
+                .usuario(rsa.encrypt(usuario.getUsuario()))
+                .senha(rsa.encrypt(usuario.getSenha()))
+                .build();
+
+        repository.saveAndFlush(usuarioCriptografado);
+    }
+
+    public Usuario buscarUsuario(String user) {
         Usuario usuario = repository.findByUsuario(user);
 
         if (usuario == null) {
             throw new UsernameNotFoundException("Usuario nao encontrado");
         }
 
-		return usuario;
-	}
+        // Descriptografa ao retornar
+        Usuario usuarioDecriptado = Usuario.builder()
+                .id(usuario.getId())
+                .usuario(rsa.decrypt(usuario.getUsuario()))
+                .senha(rsa.decrypt(usuario.getSenha()))
+                .build();
 
-	public void deletarUsuario(String usuario) {
+        return usuarioDecriptado;
+    }
+
+    public void deletarUsuario(String usuario) {
         if (!repository.existsByUsuario(usuario)) {
             throw new UsernameNotFoundException("Usuário não encontrado: " + usuario);
         }
-		repository.deleteByUsuario(usuario);
-	}
-	
-	public void atualizarUsuarioPorId(Integer id, Usuario usuario) {
-		Usuario usuarioEntity = repository.findById(id).orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
-		
-		Usuario usuarioAtualizado = Usuario.builder()
-        .usuario(usuario.getUsuario() != null ? usuario.getUsuario() : usuarioEntity.getUsuario())
-        .senha(usuario.getSenha() != null ? usuario.getSenha() : usuarioEntity.getSenha())
-        .id(usuarioEntity.getId())
-        .build();
-		
-		repository.saveAndFlush(usuarioAtualizado);
-	}
+        repository.deleteByUsuario(usuario);
+    }
+
+    public void atualizarUsuarioPorId(Integer id, Usuario usuario) {
+        Usuario usuarioEntity = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
+
+        Usuario usuarioAtualizado = Usuario.builder()
+                .usuario(usuario.getUsuario() != null ? usuario.getUsuario() : usuarioEntity.getUsuario())
+                .senha(usuario.getSenha() != null ? usuario.getSenha() : usuarioEntity.getSenha())
+                .id(usuarioEntity.getId())
+                .build();
+
+        repository.saveAndFlush(usuarioAtualizado);
+    }
 
     /**
      *
@@ -71,26 +89,24 @@ public class UsuarioService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-       Usuario usuario = repository.findByUsuario(username);
+        Usuario usuario = repository.findByUsuario(username);
 
-       if (usuario == null) {
-           throw new UsernameNotFoundException("usuario nao encontrado: " + username);
-       }
+        if (usuario == null) {
+            throw new UsernameNotFoundException("usuario nao encontrado: " + username);
+        }
 
         return new org.springframework.security.core.userdetails.User(
                 usuario.getUsuario(),
                 usuario.getSenha(),
-                Collections.emptyList()
-        );
+                Collections.emptyList());
     }
 
+    // Métodos utilitários
     public String encrypt(String data) {
-		AES aes = new AES(AES_KEY);
-		return aes.encrypt(data);
-	}
+        return rsa.encrypt(data);
+    }
 
     public String decrypt(String data) {
-		AES aes = new AES(AES_KEY);
-		return aes.decrypt(data);
-	}
+        return rsa.decrypt(data);
+    }
 }
