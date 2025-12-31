@@ -4,8 +4,10 @@ import com.building.cadastro_usuario.entity.Usuario;
 import com.building.cadastro_usuario.service.UsuarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,18 +16,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.building.cadastro_usuario.exception.MissingFieldException;
-import com.building.cadastro_usuario.repository.UsuarioRepository;
 
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-
+@CrossOrigin(origins = {
+        "http://localhost:5500",
+        "http://127.0.0.1:5500"
+}, maxAge = 3600)
 @RestController
 @RequestMapping("/usuarios")
 @RequiredArgsConstructor
 public class UsuarioController {
 	private final UsuarioService service;
-	private final UsuarioRepository repository;
 
 	@PostMapping("/create")
 	public ResponseEntity<String> salvarUsuario(@RequestBody Usuario usuario) {
@@ -42,9 +45,10 @@ public class UsuarioController {
 		return ResponseEntity.ok(service.buscarTodosUsuarios());
 	}
 
-	@GetMapping
-	public ResponseEntity<Usuario> buscarUsuarioPorEmail(@RequestParam String email) {
-		return ResponseEntity.ok(service.buscarUsuario(email));
+	@GetMapping("/{id}")
+	public ResponseEntity<Usuario> buscarUsuarioPorId(@PathVariable Integer id) {
+		Usuario usuario = service.buscarUsuarioPorId(id);
+		return ResponseEntity.ok(usuario);
 	}
 
 	@DeleteMapping

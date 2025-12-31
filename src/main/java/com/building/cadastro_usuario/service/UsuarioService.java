@@ -44,22 +44,20 @@ public class UsuarioService implements UserDetailsService {
         repository.saveAndFlush(usuarioCriptografado);
     }
 
-    public Usuario buscarUsuario(String user) {
-        Usuario usuario = repository.findByUsuario(user);
+    public Usuario buscarUsuarioPorId(Integer id) {
+        Usuario usuario = repository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
-        if (usuario == null) {
-            throw new UsernameNotFoundException("Usuario nao encontrado");
-        }
-
-        // Descriptografa ao retornar
-        Usuario usuarioDecriptado = Usuario.builder()
+        // Retorna os dados como estão (criptografados)
+        Usuario usuarioCriptografado = Usuario.builder()
                 .id(usuario.getId())
-                .usuario(rsa.decrypt(usuario.getUsuario()))
-                .senha(rsa.decrypt(usuario.getSenha()))
+                .usuario(usuario.getUsuario()) // sem decrypt
+                .senha(usuario.getSenha()) // sem decrypt
                 .build();
 
-        return usuarioDecriptado;
+        return usuarioCriptografado;
     }
+
 
     public void deletarUsuario(String usuario) {
         if (!repository.existsByUsuario(usuario)) {
