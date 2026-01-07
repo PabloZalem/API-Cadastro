@@ -51,9 +51,9 @@ public class UsuarioController {
 		return ResponseEntity.ok(usuario);
 	}
 
-	@DeleteMapping
-	public ResponseEntity<Void> deletarUsuarioPorEmail(@RequestParam String email) {
-		service.deletarUsuario(email);
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deletarUsuarioPorEmail(@PathVariable Integer id) {
+		service.deletarUsuario(id);
 		return ResponseEntity.noContent().build();
 	}
 

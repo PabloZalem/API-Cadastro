@@ -47,7 +47,7 @@ public class AuthenticationController {
 
     @PostMapping("/signup")
     public String registerUser(@RequestBody Usuario usuario) {
-        if (usuarioRepository.existsByUsuario(usuario.getUsuario())) {
+        if (usuarioRepository.findByUsuario(usuario.getUsuario()) != null) {
             return "Usuario ja existe";
         }
 

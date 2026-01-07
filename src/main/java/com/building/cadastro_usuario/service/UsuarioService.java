@@ -59,11 +59,11 @@ public class UsuarioService implements UserDetailsService {
     }
 
 
-    public void deletarUsuario(String usuario) {
-        if (!repository.existsByUsuario(usuario)) {
-            throw new UsernameNotFoundException("Usuário não encontrado: " + usuario);
+    public void deletarUsuario(Integer id) {
+        if (!repository.existsById(id)) {
+            throw new UsernameNotFoundException("Usuário não encontrado: " + id);
         }
-        repository.deleteByUsuario(usuario);
+        repository.deleteById(id);
     }
 
     public void atualizarUsuarioPorId(Integer id, Usuario usuario) {
